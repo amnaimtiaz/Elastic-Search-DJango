@@ -1,0 +1,26 @@
+<form>
+    <input type='text' id='search' name='q' />
+    <input type='submit' value='Search'/>
+</form>
+
+{{ query }}
+
+<ul>
+{% for result in results %}
+<li><a href='{{ result.url }}'>{{ result.title }}</a> {{ result.index }}</li>
+
+{% endfor %}
+</ul>
+
+<script>
+    const searchInput = document.getElementById('search')
+    function MySearchInputHandler(event) {
+        const searchValue = searchInput.value
+        // do a lookup to my backend
+        const urlEndpoint = `/api/search/?q=${searchValue}`
+        fetch(urlEndpoint).then(x=>x.json()).then(x=>console.log(x))
+    }
+    if (searchInput) {
+        searchInput.addEventListener('keyup', MySearchInputHandler)
+    }
+</script>
